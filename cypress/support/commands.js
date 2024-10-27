@@ -25,17 +25,14 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 // COMMAND FOR TESTING ADD NEW GOODS
-Cypress.Commands.add("loginTest", () => {
+Cypress.Commands.add("login_Nam_Test", () => {
   // Truy cập trang đăng nhập
-  cy.visit("http://localhost:5173/login");
+  cy.visit("https://www.phptravels.net/login");
 
-  // Nhập vào trường Username
-  cy.get('input[name="username"]', { timeout: 10000 }).should('be.visible').type('annhien'); 
-  // Nhập vào trường Password
-  cy.get('input[name="password"]').should('be.visible').type("123456");
-  cy.get('button[type="submit"]').click();
-  cy.wait(500);
+  cy.get("#email").type("namthanhvnx911@gmail.com");
+  cy.get("#password").type("12345678@@");
+  cy.get("#submitBTN").click();
 
-  // Kiểm tra đăng nhập thành công và điều hướng đến trang thêm hàng hóa
-  cy.url().should("include", "/");
+  // Kiểm tra chuyển hướng tới trang chính
+  cy.url().should("include", "/dashboard");
 });

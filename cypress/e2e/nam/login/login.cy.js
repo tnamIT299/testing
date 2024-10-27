@@ -4,18 +4,8 @@ describe('Kiểm tra đăng nhập', () => {
     cy.visit('https://www.phptravels.net/login');
   });
 
-  it('Không đăng nhập được do email và password không hợp lệ', () => {
-    // Nhập thông tin không hợp lệ
-    cy.get('#email').type('invalid@gmail.com');
-    cy.get('#password').type('wrongpassword');
-    cy.get('#submitBTN').click();
 
-    // Kiểm tra thông báo lỗi
-    cy.contains('Invalid Login').should('be.visible');
-    cy.contains('Please check your emal and password').should('be.visible');
-  });
-
-  it('Đăng nhập thành công do email và password hợp lệ', () => {
+  it('TC1: Đăng nhập thành công do email ĐÚNG và password ĐÚNG', () => {
     // Nhập thông tin hợp lệ
     cy.get('#email').type('namthanhvnx911@gmail.com');
     cy.get('#password').type('12345678');
@@ -25,7 +15,7 @@ describe('Kiểm tra đăng nhập', () => {
     cy.url().should('include', '/dashboard');
   });
 
-  it('Không đăng nhập được do password không hợp lệ', () => {
+  it('TC2: Không đăng nhập được do email ĐÚNG password SAI', () => {
     // Nhập thông tin hợp lệ
     cy.get('#email').type('namthanhvnx911@gmail.com');
     cy.get('#password').type('1234567890');
@@ -36,7 +26,28 @@ describe('Kiểm tra đăng nhập', () => {
     cy.contains('Please check your emal and password').should('be.visible');
   });
 
-  it('Không đăng nhập được do email không hợp lệ', () => {
+  it('TC3: Không đăng nhập được do email ĐÚNG và password để trống', () => {
+    // Nhập thông tin hợp lệ
+    cy.get('#email').type('namthanhvnx911@gmail.com');
+    cy.get('#submitBTN').click();
+
+    // Kiểm tra thông báo lỗi
+    cy.contains('Invalid Login').should('be.visible');
+    cy.contains('Please check your emal and password').should('be.visible');
+  });
+
+  it('TC4: Không đăng nhập được do email SAI và password SAI ', () => {
+    // Nhập thông tin không hợp lệ
+    cy.get('#email').type('invalid@gmail.com');
+    cy.get('#password').type('wrongpassword');
+    cy.get('#submitBTN').click();
+
+    // Kiểm tra thông báo lỗi
+    cy.contains('Invalid Login').should('be.visible');
+    cy.contains('Please check your emal and password').should('be.visible');
+  });
+
+  it('TC5: Không đăng nhập được do email SAI và password ĐÚNG', () => {
     // Nhập thông tin hợp lệ
     cy.get('#email').type('invalid@example.com');
     cy.get('#password').type('12345678');
@@ -47,7 +58,19 @@ describe('Kiểm tra đăng nhập', () => {
     cy.contains('Please check your emal and password').should('be.visible');
   });
 
-  it('Không đăng nhập được do email để trống', () => {
+  it('TC6: Không đăng nhập được do email SAI và password để trống', () => {
+    // Nhập thông tin hợp lệ
+    cy.get('#email').type('invalid@example.com');
+    cy.get('#submitBTN').click();
+
+    // Kiểm tra thông báo lỗi
+    cy.contains('Invalid Login').should('be.visible');
+    cy.contains('Please check your emal and password').should('be.visible');
+  });
+
+
+
+  it('TC7: Không đăng nhập được do email để trống và password ĐÚNG', () => {
     // Nhập thông tin hợp lệ
     cy.get('#password').type('12345678');
     cy.get('#submitBTN').click();
@@ -57,9 +80,9 @@ describe('Kiểm tra đăng nhập', () => {
     cy.contains('Please check your emal and password').should('be.visible');
   });
 
-  it('Không đăng nhập được do password để trống', () => {
+  it('TC8: Không đăng nhập được do email để trống và password SAI', () => {
     // Nhập thông tin hợp lệ
-    cy.get('#email').type('namthanhvnx911@gmail.com');
+    cy.get('#password').type('1234567890');
     cy.get('#submitBTN').click();
 
     // Kiểm tra thông báo lỗi
@@ -67,8 +90,7 @@ describe('Kiểm tra đăng nhập', () => {
     cy.contains('Please check your emal and password').should('be.visible');
   });
 
-  it('Không đăng nhập được do email và password để trống', () => {
-    // Nhấn nút đăng nhập mà không điền thông tin
+  it('TC9: Không đăng nhập được do email để trống và password để trống', () => {
     cy.get('#submitBTN').click();
 
     // Kiểm tra thông báo lỗi
@@ -76,6 +98,8 @@ describe('Kiểm tra đăng nhập', () => {
     cy.contains('Please check your emal and password').should('be.visible');
   });
 
+
+//UI TEST
   it('Đăng nhập thành công dùng phím Enter', () => {
     // Nhấn nút Enter
     cy.get('#email').type('namthanhvnx911@gmail.com');
