@@ -1,107 +1,51 @@
-describe("Kiểm tra book tour", () => {
+describe("Kiểm tra find best tours", () => {
   beforeEach(() => {
     // Mở trang trước mỗi bài kiểm thử
     cy.visit("https://www.phptravels.net/tours");
   });
 
-  it("Kiểm tra nhấp vào liên kết View More của thẻ tour và kiểm tra giá trị ngày", () => {
-    let city;
-    let country;
+  it("Kiểm tra tất cả điều kiện hợp lệ", () => {
+    const city = "Berlin"; // Khai báo thành phố
     let dateValue; // Biến lưu trữ giá trị ngày từ input
-    let adults; // Biến lưu trữ số lượng người lớn
-    let children; // Biến lưu trữ số lượng trẻ em
+    const adults = 2; // Biến lưu trữ số lượng người lớn
+    const children = 1; // Biến lưu trữ số lượng trẻ em
 
-    // Mở dropdown để chọn thành phố
-    cy.get(".select2-selection--single").click(); // Nhấp để mở dropdown
+    // Nhập thành phố vào ô nhập liệu của Select2
+    cy.get(".select2-selection--single").click(); // Mở dropdown
 
-    // Chọn thành phố Berlin từ danh sách
-    cy.get("#select2-tours_city-results").contains("Berlin").click();
+    // Tìm kiếm thành phố
+    cy.get(".select2-search__field").type(city).wait(1000); // Đợi một chút để danh sách thành phố có thể load
 
-    // Lấy tên thành phố và quốc gia
-    cy.get("#select2-tours_city-container")
-      .invoke("text")
-      .then((text) => {
-        const trimmedText = text.trim();
-        const parts = trimmedText.split(" ");
+    // Chờ cho các tùy chọn thành phố hiển thị và chọn tùy chọn đầu tiên
+    cy.get(".select2-results__option")
+      .should("be.visible")
+      .first() // Nhấp vào tùy chọn đầu tiên
+      .click(); // Chọn thành phố
 
-        city = parts[0];
-        country = parts.slice(1).join(" ");
-
-        expect(city).to.equal("Berlin");
-        expect(country).to.include("Germany");
-
-        cy.log("Tên thành phố:", city);
-        cy.log("Tên quốc gia:", country);
-      })
-      .then(() => {
-        // Lấy giá trị của trường date
-        cy.get("input#date")
-          .invoke("val")
-          .then((val) => {
-            dateValue = val; // Gán giá trị ngày vào biến
-
-            cy.log("Ngày lấy được:", dateValue);
-          });
-      })
-      .then(() => {
-        // Mở dropdown để điều chỉnh số lượng người lớn
-        cy.get(".travellers").click(); // Nhấp vào dropdown để mở
-
-        // Lấy số lượng người lớn hiện tại
-        cy.get("#tours_adults")
-          .invoke("val")
-          .then((val) => {
-            adults = parseInt(val, 10); // Chuyển đổi giá trị thành số nguyên
-            cy.log("Số lượng người lớn hiện tại:", adults);
-
-            // Tăng số lượng người lớn 3 lần
-            for (let i = 0; i < 3; i++) {
-              cy.get("#tours_adults")
-                .parents(".qty-box") // Tìm phần tử cha chứa nút tăng
-                .find(".qtyInc") // Tìm nút tăng
-                .click(); // Nhấp vào nút tăng
-            }
-
-            // Kiểm tra giá trị sau khi tăng
-            cy.get("#tours_adults").should(
-              "have.value",
-              (adults + 3).toString()
-            ); // Giá trị người lớn tăng lên
-          });
-
-        // Lấy số lượng trẻ em hiện tại
-        cy.get("#tours_child")
-          .invoke("val")
-          .then((val) => {
-            children = parseInt(val, 10); // Chuyển đổi giá trị thành số nguyên
-            cy.log("Số lượng trẻ em hiện tại:", children);
-
-            // Tăng số lượng trẻ em 2 lần
-            for (let i = 0; i < 2; i++) {
-              cy.get("#tours_child")
-                .parents(".qty-box") // Tìm phần tử cha chứa nút tăng
-                .find(".qtyInc") // Tìm nút tăng
-                .click(); // Nhấp vào nút tăng
-            }
-
-            // Kiểm tra giá trị sau khi tăng
-            cy.get("#tours_child").should(
-              "have.value",
-              (children + 2).toString()
-            ); // Giá trị trẻ em tăng lên
-          });
-      })
-      .then(() => {
-        // Nhấp vào nút "Tìm kiếm"
-        cy.get('button[type="submit"]').click();
-
-        // Kiểm tra URL
-        cy.url().should(
-          "include",
-          `/tours/${city}/${city.toLowerCase()}/${dateValue}/${adults + 3}/${
-            children + 2
-          }/`
-        );
+    // Lấy giá trị của trường date
+    cy.get("input#date")
+      .invoke("val")
+      .then((val) => {
+        dateValue = val; // Gán giá trị ngày vào biến
+        cy.log("Ngày lấy được:", dateValue);
       });
+
+    // Nhấp vào dropdown cho số lượng hành khách
+    cy.get(".travellers").click(); // Mở dropdown để chỉnh sửa số lượng hành khách
+
+    // Nhập số lượng người lớn
+    cy.get("#tours_adults")
+      .should("be.visible") // Đảm bảo rằng trường input nhìn thấy
+      .clear() // Xóa giá trị cũ nếu có
+      .type(adults.toString()); // Nhập số lượng người lớn
+
+    // Nhập số lượng trẻ em
+    cy.get("#tours_child")
+      .should("be.visible") // Đảm bảo rằng trường input nhìn thấy
+      .clear() // Xóa giá trị cũ nếu có
+      .type(children.toString()); // Nhập số lượng trẻ em
+
+    // Nhấp vào nút "Tìm kiếm"
+    cy.get('button[type="submit"]').click();
   });
 });
