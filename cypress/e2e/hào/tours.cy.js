@@ -1,4 +1,4 @@
-describe("Kiểm tra find best tours", () => {
+describe("Kiểm tra Find Best Tours", () => {
   beforeEach(() => {
     // Mở trang trước mỗi bài kiểm thử
     cy.visit("https://www.phptravels.net/tours");
