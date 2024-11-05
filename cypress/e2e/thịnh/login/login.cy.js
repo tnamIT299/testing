@@ -7,8 +7,13 @@ describe('Kiểm tra đăng nhập', () => {
 
   it('TC1: Đăng nhập thành công do email ĐÚNG và password ĐÚNG', () => {
     // Nhập thông tin hợp lệ
+<<<<<<< HEAD
     cy.get('#email').type('namthanhvnx911@gmail.com');
     cy.get('#password').type('12345678');
+=======
+    cy.get('#email').type('phantanthinh1306@gmail.com');
+    cy.get('#password').type('T1h2i3n4h5$');
+>>>>>>> 8cb66ee7c4c30bc7ac2243202218178e55ee48e1
     cy.get('#submitBTN').click();
 
     // Kiểm tra chuyển hướng tới trang chính
@@ -17,8 +22,13 @@ describe('Kiểm tra đăng nhập', () => {
 
   it('TC2: Không đăng nhập được do email ĐÚNG password SAI', () => {
     // Nhập thông tin hợp lệ
+<<<<<<< HEAD
     cy.get('#email').type('namthanhvnx911@gmail.com');
     cy.get('#password').type('1234567890');
+=======
+    cy.get('#email').type('phantanthinh1306@gmail.com');
+    cy.get('#password').type('abfji!#$%');
+>>>>>>> 8cb66ee7c4c30bc7ac2243202218178e55ee48e1
     cy.get('#submitBTN').click();
 
     // Kiểm tra thông báo lỗi
@@ -26,9 +36,16 @@ describe('Kiểm tra đăng nhập', () => {
     cy.contains('Please check your emal and password').should('be.visible');
   });
 
+<<<<<<< HEAD
   it('TC3: Không đăng nhập được do email ĐÚNG và password để trống', () => {
     // Nhập thông tin hợp lệ
     cy.get('#email').type('namthanhvnx911@gmail.com');
+=======
+
+  it('TC3: Không đăng nhập được do email ĐÚNG password ĐỂ TRỐNG', () => {
+    // Nhập thông tin hợp lệ
+    cy.get('#email').type('phantanthinh1306@gmail.com');
+>>>>>>> 8cb66ee7c4c30bc7ac2243202218178e55ee48e1
     cy.get('#submitBTN').click();
 
     // Kiểm tra thông báo lỗi
@@ -36,16 +53,45 @@ describe('Kiểm tra đăng nhập', () => {
     cy.contains('Please check your emal and password').should('be.visible');
   });
 
+<<<<<<< HEAD
   it('TC4: Không đăng nhập được do email SAI và password SAI ', () => {
     // Nhập thông tin không hợp lệ
     cy.get('#email').type('invalid@gmail.com');
     cy.get('#password').type('wrongpassword');
+=======
+
+  it('TC4: Không đăng nhập được do email SAI và password ĐÚNG', () => {
+    // Nhập thông tin hợp lệ
+    cy.get('#email').type('phantanthinh@gmail.com')
+    cy.get('#password').type('T1h2i3n4h5$');
     cy.get('#submitBTN').click();
 
     // Kiểm tra thông báo lỗi
     cy.contains('Invalid Login').should('be.visible');
     cy.contains('Please check your emal and password').should('be.visible');
   });
+
+  it('TC5: Không đăng nhập được do email SAI ĐỊNH DẠNG và password ĐÚNG', () => {
+    // Nhập thông tin hợp lệ
+    cy.get('#email').type('phantan')
+    cy.get('#password').type('T1h2i3n4h5$');
+    cy.get('#submitBTN').click();
+
+     // Kiểm tra thông báo lỗi
+     cy.log("Please include an '@' in the email address");
+  });
+
+  it('TC6: Không đăng nhập được do email ĐỂ TRỐNG và password ĐÚNG ', () => {
+    // Nhập thông tin không hợp lệ
+    cy.get('#password').type('T1h2i3n4h5$');
+>>>>>>> 8cb66ee7c4c30bc7ac2243202218178e55ee48e1
+    cy.get('#submitBTN').click();
+
+    // Kiểm tra thông báo lỗi
+    cy.contains('Invalid Login').should('be.visible');
+    cy.contains('Please check your emal and password').should('be.visible');
+  });
+<<<<<<< HEAD
 
   it('TC5: Không đăng nhập được do email SAI và password ĐÚNG', () => {
     // Nhập thông tin hợp lệ
@@ -152,5 +198,19 @@ describe('Kiểm tra đăng nhập', () => {
     // Kiểm tra alert
     cy.get('@alert').should('have.been.calledWith', 'Your password has been reset please check your mailbox');
 });
+=======
+  
+  it('TC7: Đăng nhập thất bại do email SAI và password SAI ', () => {
+    // Nhập thông tin hợp lệ
+    cy.get('#email').type('phanthinh@gmail.com');
+    cy.get('#password').type('a7f8f93n%*^');
+    cy.get('#submitBTN').click();
+
+     // Kiểm tra thông báo lỗi
+     cy.contains('Invalid Login').should('be.visible');
+     cy.contains('Please check your emal and password').should('be.visible');
+  });
+
+>>>>>>> 8cb66ee7c4c30bc7ac2243202218178e55ee48e1
 
 });
