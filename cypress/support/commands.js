@@ -36,3 +36,15 @@ Cypress.Commands.add("login_Nam_Test", () => {
   // Kiểm tra chuyển hướng tới trang chính
   cy.url().should("include", "/dashboard");
 });
+
+Cypress.Commands.add("login_Hao_Test", () => {
+  // Truy cập trang đăng nhập
+  cy.visit("https://www.phptravels.net/login");
+
+  cy.get("#email").type("hao7ehoathanh@gmail.com");
+  cy.get("#password").type("1234567890");
+  cy.get("#submitBTN").click();
+
+  // Kiểm tra chuyển hướng tới trang chính
+  cy.url().should("include", "/dashboard");
+});
